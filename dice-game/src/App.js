@@ -4,7 +4,7 @@ import './App.css';
 import grosPoulet from './assets/gros poulet.png';
 import confetti from "https://esm.run/canvas-confetti@1";
 
-const ENDPOINT = 'http://localhost:5480';
+const ENDPOINT = 'http://biskit.fabiangregoire.fr';
 
 function App() {
     const [socket] = useState(() => socketIOClient(ENDPOINT, {
