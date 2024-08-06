@@ -26,12 +26,15 @@ jobs:
         SERVER_SSH_PORT: ${{ secrets.SERVER_SSH_PORT }} //22
       run: |
         # Deploying the client source files
-        rsync -avz -e "ssh -p $SERVER_SSH_PORT" --progress ./dice-game/ $SERVER_USER@$SERVER_IP:/var/www/biskit/client/
+        echo "$SSH_PRIVATE_KEY" > private_key.pem
+        chmod 600 private_key.pem
+
+        rsync -avz -e "ssh -i private_key.pem -p $SERVER_SSH_PORT" --progress ./dice-game/ $SERVER_USER@$SERVER_IP:/var/www/biskit/client/
 
         # Deploying the server files
-        rsync -avz -e "ssh -p $SERVER_SSH_PORT" --progress ./server.js $SERVER_USER@$SERVER_IP:/var/www/biskit/server/
-        rsync -avz -e "ssh -p $SERVER_SSH_PORT" --progress ./package.json $SERVER_USER@$SERVER_IP:/var/www/biskit/server/
-        rsync -avz -e "ssh -p $SERVER_SSH_PORT" --progress ./package-lock.json $SERVER_USER@$SERVER_IP:/var/www/biskit/server/
+        rsync -avz -e "ssh -i private_key.pem -p $SERVER_SSH_PORT" --progress ./server.js $SERVER_USER@$SERVER_IP:/var/www/biskit/server/
+        rsync -avz -e "ssh -i private_key.pem -p $SERVER_SSH_PORT" --progress ./package.json $SERVER_USER@$SERVER_IP:/var/www/biskit/server/
+        rsync -avz -e "ssh -i private_key.pem -p $SERVER_SSH_PORT" --progress ./package-lock.json $SERVER_USER@$SERVER_IP:/var/www/biskit/server/
 
         # Build the client on the server
         ssh -p $SERVER_SSH_PORT $SERVER_USER@$SERVER_IP "cd /var/www/biskit/client && npm install && npm run build"
@@ -41,3 +44,10 @@ jobs:
 
         # Restart the PM2 process
         ssh -p $SERVER_SSH_PORT $SERVER_USER@$SERVER_IP "pm2 restart biskit-server"
+
+    - name: List files in repository
+      run: |
+        ls -la ./dice-game/
+        ls -la ./server.js
+        ls -la ./package.json
+        ls -la ./package-lock.json
