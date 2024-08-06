@@ -18,6 +18,13 @@ jobs:
       with:
         node-version: '18.19'
 
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -p ${{ secrets.SERVER_SSH_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
     - name: Deploy source files to Server
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }} 
@@ -26,9 +33,6 @@ jobs:
         SERVER_SSH_PORT: ${{ secrets.SERVER_SSH_PORT }}
       run: |
         # Deploying the client source files
-        echo "$SSH_PRIVATE_KEY" > private_key.pem
-        chmod 600 private_key.pem
-
         rsync -avz -e "ssh -i private_key.pem -p $SERVER_SSH_PORT" --progress ./dice-game/ $SERVER_USER@$SERVER_IP:/var/www/biskit/client/
 
         # Deploying the server files
