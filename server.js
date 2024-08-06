@@ -6,15 +6,33 @@ const cors = require('cors');
 const app = express();
 const server = http.createServer(app);
 
+const allowedOrigins = [
+    'http://localhost:3000', // Pour le développement local
+    'https://biskit.fabiangregoire.fr' // Pour la production
+];
+
+// Configuration CORS
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ["GET", "POST"],
     credentials: true
 }));
 
 const io = socketIo(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: function (origin, callback) {
+            if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        },
         methods: ["GET", "POST"],
         credentials: true
     }
@@ -267,4 +285,4 @@ io.on('connection', (socket) => {
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+server.listen(PORT, '0.0.0.0', () => console.log(`Listening on port ${PORT}`));

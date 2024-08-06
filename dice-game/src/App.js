@@ -4,13 +4,17 @@ import './App.css';
 import grosPoulet from './assets/gros poulet.png';
 import confetti from "https://esm.run/canvas-confetti@1";
 
-const ENDPOINT = 'http://biskit.fabiangregoire.fr';
+const ENDPOINT = 'wss://biskit.fabiangregoire.fr';
 
 function App() {
     const [socket] = useState(() => socketIOClient(ENDPOINT, {
-        transports: ['websocket', 'polling'],
-        withCredentials: true
+        transports: ['websocket'],
+        withCredentials: true,
+        secure: true,
+        reconnectionAttempts: 5,
+        timeout: 20000
     }));
+
     const [room, setRoom] = useState('');
     const [isRoomCreated, setIsRoomCreated] = useState(false);
     const [isGameStarted, setIsGameStarted] = useState(false);
