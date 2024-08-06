@@ -21,9 +21,9 @@ jobs:
     - name: Deploy source files to Server
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }} 
-        SERVER_USER: ${{ secrets.SERVER_USER }} //flamb
-        SERVER_IP: ${{ secrets.SERVER_IP }} //35.204.147.19
-        SERVER_SSH_PORT: ${{ secrets.SERVER_SSH_PORT }} //22
+        SERVER_USER: ${{ secrets.SERVER_USER }}
+        SERVER_IP: ${{ secrets.SERVER_IP }}
+        SERVER_SSH_PORT: ${{ secrets.SERVER_SSH_PORT }}
       run: |
         # Deploying the client source files
         echo "$SSH_PRIVATE_KEY" > private_key.pem
