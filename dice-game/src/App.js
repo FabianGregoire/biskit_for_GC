@@ -174,7 +174,6 @@ function App() {
         socket.on('double', handleDoubleEvent);
         socket.on('chickenPlayerStatus',handleChickenPlayerStatus);
         socket.on('chickenPlayerPenalties',handleChickenPlayerPenalties);
-        socket.on('double_1_ou_6', handleDouble_1_ou_6);
         /*socket.on('numberCheck', handleCheckNumberEvent);*/
 
         // Clean up the event listeners on unmount
@@ -189,7 +188,6 @@ function App() {
             socket.off('double', handleDoubleEvent);
             socket.off('chickenPlayerStatus',handleChickenPlayerStatus);
             socket.off('chickenPlayerPenalties',handleChickenPlayerPenalties);
-            socket.off('double_1_ou_6', handleDouble_1_ou_6);
             /*socket.off('numberCheck', handleCheckNumberEvent);*/
         };
 
