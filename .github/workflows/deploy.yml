@@ -62,10 +62,10 @@ jobs:
         SERVER_IP: ${{ secrets.SERVER_IP }}
         SERVER_SSH_PORT: ${{ secrets.SERVER_SSH_PORT }}
       run: |
-        rsync -avz -e "ssh -i ~/.ssh/id_rsa_github_actions -p $SERVER_SSH_PORT" --progress ./dice-game/ $SERVER_USER@$SERVER_IP:/var/www/biskit/client/
-        rsync -avz -e "ssh -i ~/.ssh/id_rsa_github_actions -p $SERVER_SSH_PORT" --progress ./server.js $SERVER_USER@$SERVER_IP:/var/www/biskit/server/
-        rsync -avz -e "ssh -i ~/.ssh/id_rsa_github_actions -p $SERVER_SSH_PORT" --progress ./package.json $SERVER_USER@$SERVER_IP:/var/www/biskit/server/
-        rsync -avz -e "ssh -i ~/.ssh/id_rsa_github_actions -p $SERVER_SSH_PORT" --progress ./package-lock.json $SERVER_USER@$SERVER_IP:/var/www/biskit/server/
+        rsync -avz --omit-dir-times -e "ssh -i ~/.ssh/id_rsa_github_actions -p $SERVER_SSH_PORT" --progress ./dice-game/ $SERVER_USER@$SERVER_IP:/var/www/biskit/client/
+        rsync -avz --omit-dir-times -e "ssh -i ~/.ssh/id_rsa_github_actions -p $SERVER_SSH_PORT" --progress ./server.js $SERVER_USER@$SERVER_IP:/var/www/biskit/server/
+        rsync -avz --omit-dir-times -e "ssh -i ~/.ssh/id_rsa_github_actions -p $SERVER_SSH_PORT" --progress ./package.json $SERVER_USER@$SERVER_IP:/var/www/biskit/server/
+        rsync -avz --omit-dir-times -e "ssh -i ~/.ssh/id_rsa_github_actions -p $SERVER_SSH_PORT" --progress ./package-lock.json $SERVER_USER@$SERVER_IP:/var/www/biskit/server/
         ssh -i ~/.ssh/id_rsa_github_actions -p $SERVER_SSH_PORT $SERVER_USER@$SERVER_IP "cd /var/www/biskit/client && npm install && npm run build"
         ssh -i ~/.ssh/id_rsa_github_actions -p $SERVER_SSH_PORT $SERVER_USER@$SERVER_IP "cd /var/www/biskit/server && npm install"
         ssh -i ~/.ssh/id_rsa_github_actions -p $SERVER_SSH_PORT $SERVER_USER@$SERVER_IP "pm2 restart biskit-server"
