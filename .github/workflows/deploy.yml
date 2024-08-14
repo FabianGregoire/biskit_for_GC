@@ -27,6 +27,11 @@ jobs:
     - name: Check PATH
       run: echo $PATH
 
+    - name: Test rsync command
+      run: |
+        echo "Testing rsync"
+        rsync -avz /path/to/source /path/to/destination
+
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh
@@ -34,15 +39,8 @@ jobs:
         chmod 600 ~/.ssh/id_rsa_github_actions
         ssh-keyscan -p ${{ secrets.SERVER_SSH_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-    - name: Display SSH key contents
-      run: cat ~/.ssh/id_rsa_github_actions
-
-    - name: List variables
-      run: | 
-        echo "${{ secrets.SSH_PRIVATE_KEY }}"
-        echo "${{ secrets.SERVER_SSH_PORT }}"
-        echo "${{ secrets.SERVER_USER }}"
-        echo "${{ secrets.SERVER_IP }}"
+    - name: Check SSH key permissions
+      run: ls -l ~/.ssh/id_rsa_github_actions
 
     - name: Deploy source files to Server
       env:
