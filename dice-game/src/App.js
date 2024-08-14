@@ -126,7 +126,7 @@ function App() {
             }, 3000);
         }
 
-        const handleChickenPlayerPenalties = ( playerId, penalty) => {
+        const handleChickenPlayerPenalties = ({playerId, penalty}) => {
             const currentPenaltyId = nextPenaltyId; // Stocker l'ID actuel dans une variable locale
             nextPenaltyId++; // Incrémenter l'ID pour la prochaine notification
         
@@ -154,13 +154,12 @@ function App() {
                     spread: 200
                 });
                 if (doubleNumber === 1){
-                    handleChickenPlayerPenalties();
+                    handleChickenPlayerPenalties({playerId: 99, penalty: `Et c'est la pénalité maximale pour ${playerName} !`});
                 }else{
-                    handleChickenPlayerPenalties(99, `${playerName} distribue 6 pénalités et peut ajouter une règle de son choix !`);
+                    handleChickenPlayerPenalties({playerId: 99, penalty: `${playerName} distribue 6 pénalités et peut ajouter une règle de son choix !`});
                 }
             }else{
-                handleChickenPlayerPenalties(99, `${playerName} distribue ${doubleNumber} pénalités !`);
-                console.log(`handleDoubleEvent: ${playerName} distribue ${doubleNumber} pénalités !`);
+                handleChickenPlayerPenalties({playerId: 99, penalty: `${playerName} distribue ${doubleNumber} pénalités !`});
             }
         }
 
