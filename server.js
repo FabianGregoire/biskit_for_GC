@@ -56,19 +56,16 @@ const rules = [
         action: (data, params) => {
             if(data.diceResults.includes(1)){
                 params.playAgain = false;
-                
-                return new Promise((resolve) => {
-                    io.in(data.room).emit('double_1', data.currentPlayer.name);
-                    resolve();
-                });
             }else{
                 params.playAgain = true;
-
-                return new Promise((resolve) => {
-                    io.in(data.room).emit('double', data.diceResults[0]);
-                    resolve();
-                });
             }
+            return new Promise((resolve) => {
+                io.in(data.room).emit('double', {
+                    playerName : data.currentPlayer.name, 
+                    doubleNumber : data.diceResults[0]
+                });
+                resolve();
+            });
             
         },
         params: {playAgain : true}

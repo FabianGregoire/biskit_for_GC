@@ -114,11 +114,6 @@ function App() {
             setIsYourTurn(currentTurnPlayerId === socket.id);
         };
 
-        const handleDoubleEvent = (double) => {
-            setIsYourTurn(currentTurnPlayerId === socket.id);
-            console.log(double);
-        }
-
         const handleChickenPlayerStatus = (playerName) => {
             const statusElement = document.getElementById('chicken-status');
             statusElement.className = "";
@@ -153,12 +148,20 @@ function App() {
             console.log(`Notification ID: ${currentPenaltyId}, Next ID: ${nextPenaltyId}`);
         };
 
-        const handleDouble1 = (playerName) => {
-            handleChickenPlayerPenalties(99, `Et c'est la pénalité maximale pour ${playerName} !`);
-            confetti({
-                particleCount: 500,
-                spread: 200
-            });
+        const handleDoubleEvent = ({playerName, doubleNumber}) => {
+            if (doubleNumber === 1 || doubleNumber === 6){
+                confetti({
+                    particleCount: 500,
+                    spread: 200
+                });
+                if (doubleNumber === 1){
+                    handleChickenPlayerPenalties(99, `Et c'est la pénalité maximale pour ${playerName} !`);
+                }else{
+                    handleChickenPlayerPenalties(99, `${playerName} distribue 6 pénalités et peut ajouter une règle de son choix !`);
+                }
+            }else{
+                handleChickenPlayerPenalties(99, `${playerName} distribue ${doubleNumber} pénalités !`);
+            }
         }
 
         socket.on('roomCreated', handleRoomCreated);
@@ -171,7 +174,7 @@ function App() {
         socket.on('double', handleDoubleEvent);
         socket.on('chickenPlayerStatus',handleChickenPlayerStatus);
         socket.on('chickenPlayerPenalties',handleChickenPlayerPenalties);
-        socket.on('double_1', handleDouble1);
+        socket.on('double_1_ou_6', handleDouble_1_ou_6);
         /*socket.on('numberCheck', handleCheckNumberEvent);*/
 
         // Clean up the event listeners on unmount
@@ -186,6 +189,7 @@ function App() {
             socket.off('double', handleDoubleEvent);
             socket.off('chickenPlayerStatus',handleChickenPlayerStatus);
             socket.off('chickenPlayerPenalties',handleChickenPlayerPenalties);
+            socket.off('double_1_ou_6', handleDouble_1_ou_6);
             /*socket.off('numberCheck', handleCheckNumberEvent);*/
         };
 
