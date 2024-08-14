@@ -27,17 +27,24 @@ jobs:
         mkdir -p /tmp/destination
         echo "This is a test file" > /tmp/source/test_file.txt
 
-    - name: Check rsync location
-      run: which rsync
-
-    - name: Check PATH
-      run: echo $PATH
-
     - name: Test rsync command
       run: |
         echo "Testing rsync"
         rsync -avz /tmp/source/ /tmp/destination/
         ls -l /tmp/destination/
+
+    - name: Display deployment environment variables
+      run: |
+        echo "SERVER_USER=${{ secrets.SERVER_USER }}"
+        echo "SERVER_IP=${{ secrets.SERVER_IP }}"
+        echo "SERVER_SSH_PORT=${{ secrets.SERVER_SSH_PORT }}"
+
+    - name: List deployment files
+      run: |
+        ls -la ./dice-game/
+        ls -la ./server.js
+        ls -la ./package.json
+        ls -la ./package-lock.json
 
     - name: Set up SSH
       run: |
