@@ -18,6 +18,10 @@ jobs:
       with:
         node-version: '18.19'
 
+    - name: Install rsync
+      run: sudo apt-get install -y rsync
+
+
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh
