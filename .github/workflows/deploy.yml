@@ -25,8 +25,8 @@ jobs:
         chmod 600 ~/.ssh/id_rsa_github_actions
         ssh-keyscan -p ${{ secrets.SERVER_SSH_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-    - name: List .ssh directory
-      run: ls -la ~/.ssh
+    - name: Display SSH key contents
+      run: cat ~/.ssh/id_rsa_github_actions
 
     - name: List variables
       run: | 
