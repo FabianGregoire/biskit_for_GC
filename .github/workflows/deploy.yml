@@ -19,8 +19,13 @@ jobs:
         node-version: '18.19'
 
     - name: Install rsync
-      run: sudo apt-get install -y rsync
+      run: sudo apt-get update && sudo apt-get install -y rsync
 
+    - name: Check rsync location
+      run: which rsync
+
+    - name: Check PATH
+      run: echo $PATH
 
     - name: Set up SSH
       run: |
