@@ -138,7 +138,7 @@ const rules = [
                 if(totalResult === 9){
                     io.in(room).emit('chickenPlayerPenalties', {
                         playerId: currentPlayer,
-                        penalty: `Pénalité infligée à ${previousPlayer.name} car ${currentPlayer.name} a 9 !`
+                        penalty: `Pénalité infligée à ${previousPlayer.name} car ${currentPlayer.name} a fait 9 !`
                     });
                 }else if(totalResult === 10){
                     params.playAgain = false;
@@ -149,7 +149,7 @@ const rules = [
                 }else if(totalResult === 11){
                     io.in(room).emit('chickenPlayerPenalties', {
                         playerId: currentPlayer,
-                        penalty: `Pénalité infligée à ${nextPlayer.name} car ${currentPlayer.name} a 9 !`
+                        penalty: `Pénalité infligée à ${nextPlayer.name} car ${currentPlayer.name} a fait 11 !`
                     });
                 }
                 resolve();

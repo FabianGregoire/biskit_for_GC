@@ -144,8 +144,7 @@ function App() {
                     prevNotifications.filter(notification => notification.id !== currentPenaltyId)
                 );
             }, 6000);
-        
-            console.log(`Notification ID: ${currentPenaltyId}, Next ID: ${nextPenaltyId}`);
+            console.log(penalty);
         };
 
         const handleDoubleEvent = ({playerName, doubleNumber}) => {
@@ -156,11 +155,14 @@ function App() {
                 });
                 if (doubleNumber === 1){
                     handleChickenPlayerPenalties(99, `Et c'est la pénalité maximale pour ${playerName} !`);
+                    console.log(`Et c'est la pénalité maximale pour ${playerName} !`);
                 }else{
                     handleChickenPlayerPenalties(99, `${playerName} distribue 6 pénalités et peut ajouter une règle de son choix !`);
+                    console.log(`${playerName} distribue 6 pénalités et peut ajouter une règle de son choix !`);
                 }
             }else{
                 handleChickenPlayerPenalties(99, `${playerName} distribue ${doubleNumber} pénalités !`);
+                console.log(`${playerName} distribue ${doubleNumber} pénalités !`);
             }
         }
 
