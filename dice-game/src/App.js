@@ -3,6 +3,7 @@ import socketIOClient from 'socket.io-client';
 import './App.css';
 import grosPoulet from './assets/gros poulet.png';
 import confetti from "https://esm.run/canvas-confetti@1";
+import 'animate.css/animate.min.css';
 
 const ENDPOINT = 'wss://biskit.fabiangregoire.fr';
 
@@ -27,7 +28,8 @@ function App() {
     const [history, setHistory] = useState([]);
     const [openHistoryOverlay, setOpenHistoryOverlay] = useState(false);
     const [openPlayerOverlay, setOpenPlayerOverlay] = useState(false);
-    const [penaltyNotification, setPenaltyNotification] = useState('');
+    const [penaltyNotification, setPenaltyNotification] = useState([]);
+    let nextPenaltyId = 1;
 
 
     const createRoom = () => {
@@ -89,7 +91,9 @@ function App() {
         };
 
         const handleUpdateTurn = (data) => {
-            setIsYourTurn(data.playerId === socket.id); // Activer le tour si c'est le joueur local
+            setTimeout(() => {
+                setIsYourTurn(data.playerId === socket.id); // Activer le tour si c'est le joueur local
+            }, 3000);
             setCurrentTurnPlayerId(data.playerId);
             setCurrentTurnPlayerName(data.playerName);
             /*console.log("data.playerId id: " + data.playerId);
@@ -116,31 +120,45 @@ function App() {
         }
 
         const handleChickenPlayerStatus = (playerName) => {
-            // Afficher le statut du gros poulet
             const statusElement = document.getElementById('chicken-status');
-            if (statusElement) {
-                statusElement.textContent = playerName;
-            }
+            statusElement.className = "";
+            // Afficher le statut du gros poulet
+            setTimeout(() => {
+                if (statusElement) {
+                    statusElement.className = "animate__animated animate__slideInRight";
+                    statusElement.textContent = playerName;
+                }
+            }, 3000);
         }
 
         const handleChickenPlayerPenalties = ({ playerId, penalty }) => {
-            // Afficher la pénalité sous forme de notification
-            setPenaltyNotification(penalty);
-
+            const currentPenaltyId = nextPenaltyId; // Stocker l'ID actuel dans une variable locale
+            nextPenaltyId++; // Incrémenter l'ID pour la prochaine notification
+        
             setTimeout(() => {
-                setPenaltyNotification('');
-            }, 6000); // Supprimer après 5 secondes
-        }
+                // Ajouter la pénalité au tableau de notifications
+                setPenaltyNotification(prevNotifications => {
+                    const newNotification = { id: currentPenaltyId, message: penalty };
+                    return [...prevNotifications, newNotification];
+                });
+            }, 1500);
+        
+            // Supprimer la notification après 6 secondes
+            setTimeout(() => {
+                setPenaltyNotification(prevNotifications =>
+                    prevNotifications.filter(notification => notification.id !== currentPenaltyId)
+                );
+            }, 6000);
+        
+            console.log(`Notification ID: ${currentPenaltyId}, Next ID: ${nextPenaltyId}`);
+        };
 
         const handleDouble1 = (playerName) => {
-            setPenaltyNotification(`Et c'est la pénalité maximale pour ${playerName} !`);
+            handleChickenPlayerPenalties(99, `Et c'est la pénalité maximale pour ${playerName} !`);
             confetti({
                 particleCount: 500,
                 spread: 200
             });
-            setTimeout(() => {
-                setPenaltyNotification('');
-            }, 10000);
         }
 
         socket.on('roomCreated', handleRoomCreated);
@@ -241,7 +259,7 @@ function App() {
                             </div>
                         ))}
                     </div>
-                    <button id="rollDice" onClick={rollDice} disabled={!isYourTurn}>JOUER</button>
+                    <button id="rollDice" onClick={rollDice} disabled={!isYourTurn} className={isYourTurn?'active':''}>JOUER</button>
                     <div style={{display: 'none'}}>
                         <label htmlFor="numDice">Number of Dices:</label>
                         <input
@@ -254,7 +272,13 @@ function App() {
                             disabled={!isYourTurn}
                         />
                     </div>
-                    <div id="penaltyNotification" className= {penaltyNotification ? 'reveal' : 'hide'}>{penaltyNotification}</div>
+                    <div id="penaltyNotification" className= {penaltyNotification.length > 0 ? 'reveal' : 'hide'}>
+                        {penaltyNotification.map((notification) => (
+                            <div key={notification.id}>
+                                {notification.message}
+                            </div>
+                        ))}
+                    </div>
                 </div>
             )}
         </div>

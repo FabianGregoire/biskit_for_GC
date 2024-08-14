@@ -18,6 +18,13 @@ jobs:
       with:
         node-version: '18.19'
 
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -p $SERVER_SSH_PORT $SERVER_IP >> ~/.ssh/known_hosts
+
     - name: Deploy source files to Server
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }} 
@@ -41,10 +48,3 @@ jobs:
 
         # Restart the PM2 process
         ssh -p $SERVER_SSH_PORT $SERVER_USER@$SERVER_IP "pm2 restart biskit-server"
-
-    - name: List files in repository
-      run: |
-        ls -la ./dice-game/
-        ls -la ./server.js
-        ls -la ./package.json
-        ls -la ./package-lock.json

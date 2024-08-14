@@ -221,6 +221,11 @@ io.on('connection', (socket) => {
                 });
                 //Envoyer l'historique de la salle aux nouveaux joueurs
                 socket.emit('updateHistory', rooms[roomName].history);
+                //Envoyer le gros poulet actuel aux nouveaux joueurs s'il est set
+                if(rooms[roomName].chickenPlayer){
+                    console.log('Un gros poulet est défini, on envoie le nom du gros poulet au nouveau joueur');
+                    socket.emit('chickenPlayerStatus', rooms[roomName].chickenPlayer.name);
+                }
             }
         }
     });
@@ -262,10 +267,13 @@ io.on('connection', (socket) => {
         console.log('Client disconnected');
         for (let room in rooms) {
             //Supprime le joueur de la liste de joueur de cette room
-            rooms[room].players = rooms[room].players.filter(id => id !== socket.id);
+            rooms[room].players = rooms[room].players.filter(player => player.id !== socket.id);
+            console.log("Nouvelle liste des joueurs :");
+            console.log(rooms[room].players);
             //Supprime la room si elle est vide
             if (rooms[room].players.length === 0) {
                 delete rooms[room];
+                console.log("La room a été supprimée");
             } else {
                 //Met à jour la liste des joueurs côté client
                 io.in(room).emit('playerJoined', rooms[room].players);
@@ -285,4 +293,4 @@ io.on('connection', (socket) => {
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, '0.0.0.0', () => console.log(`Listening on port ${PORT}`));
+server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
