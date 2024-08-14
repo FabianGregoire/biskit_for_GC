@@ -28,6 +28,13 @@ jobs:
     - name: List .ssh directory
       run: ls -la ~/.ssh
 
+    - name: List variables
+      run: | 
+        echo "${{ secrets.SSH_PRIVATE_KEY }}"
+        echo "${{ secrets.SERVER_SSH_PORT }}"
+        echo "${{ secrets.SERVER_USER }}"
+        echo "${{ secrets.SERVER_IP }}"
+
     - name: Deploy source files to Server
       env:
         SERVER_USER: ${{ secrets.SERVER_USER }}
