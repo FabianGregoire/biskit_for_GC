@@ -21,6 +21,12 @@ jobs:
     - name: Install rsync
       run: sudo apt-get update && sudo apt-get install -y rsync
 
+    - name: Create test files
+      run: |
+        mkdir -p /tmp/source
+        mkdir -p /tmp/destination
+        echo "This is a test file" > /tmp/source/test_file.txt
+
     - name: Check rsync location
       run: which rsync
 
@@ -30,7 +36,8 @@ jobs:
     - name: Test rsync command
       run: |
         echo "Testing rsync"
-        rsync -avz /path/to/source /path/to/destination
+        rsync -avz /tmp/source/ /tmp/destination/
+        ls -l /tmp/destination/
 
     - name: Set up SSH
       run: |
