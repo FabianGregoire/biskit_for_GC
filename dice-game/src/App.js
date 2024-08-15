@@ -5,7 +5,7 @@ import grosPoulet from './assets/gros poulet.png';
 import confetti from "https://esm.run/canvas-confetti@1";
 import 'animate.css/animate.min.css';
 
-const ENDPOINT = 'wss://biskit.fabiangregoire.fr';
+const ENDPOINT = 'wss://biskit.fabiangregoire.fr'; //http://localhost:5040 | wss://biskit.fabiangregoire.fr
 
 function App() {
     const [socket] = useState(() => socketIOClient(ENDPOINT, {
@@ -16,6 +16,15 @@ function App() {
         timeout: 20000
     }));
 
+    let nextPenaltyId = 1;
+    const defaultRules= [
+        "BISKIT: Si la somme des dés fait 7, tous les joueurs doivent dire 'BISKIT' en levant la main devant le front. Le dernier prend une pénalité !",
+        "GROS POULET: Le premier joueur de la partie qui fait un 3, devient le gros poulet. Pour le perdre, il devra de nouveau faire un 3. Pendant tout le temps où il est resté le gros poulet, chaque joueur qui fera un 3 donnera une pénalité au gros poulet ! (Attention, si le gros poulet fait un double 3, il le perd puis le regagne :)",
+        "DOUBLE: Si un double est lancé, le joueur peut donner le nombre de pénalité correspondant au double en question. Attention, si c'est un double 6, il peut également ajouter une règle !",
+        "DOUBLE 1: Attention, si c'est un double 1, le joueur prend la pénalité maximale ! Aucune échapatoire possible :)",
+        "SOMME: Si la somme des dés fait 9, le joueur précédent prend une pénalité. Si c'est 10 c'est le joueur en cours, et si c'est 11 c'est le joueur d'après.",
+        "DUEL: Si la somme des dés fait 3, le joueur doit choisir un adversaire pour un duel. Le premier lancé sert à determiner le montant de la pénalité en jeu (le dé leplus haut définit cela). Le deuxième lancer sert à départager le gagnant et la perdant. Attention toutefois, si il y a un double, les joueurs doivent relancer jusqu'à se départager, et la somme des pénalités DOUBLE à chaque fois !"
+    ]
     const [room, setRoom] = useState('');
     const [isRoomCreated, setIsRoomCreated] = useState(false);
     const [isGameStarted, setIsGameStarted] = useState(false);
@@ -25,12 +34,12 @@ function App() {
     const [currentTurnPlayerId, setCurrentTurnPlayerId] = useState('');
     const [currentTurnPlayerName, setCurrentTurnPlayerName] = useState('');
     const [players, setPlayers] = useState([]);
+    const [openPlayerOverlay, setOpenPlayerOverlay] = useState(false);
     const [history, setHistory] = useState([]);
     const [openHistoryOverlay, setOpenHistoryOverlay] = useState(false);
-    const [openPlayerOverlay, setOpenPlayerOverlay] = useState(false);
+    const [rules, setRules] = useState(defaultRules);
+    const [openRulesOverlay, setOpenRulesOverlay] = useState(false);
     const [penaltyNotification, setPenaltyNotification] = useState([]);
-    let nextPenaltyId = 1;
-
 
     const createRoom = () => {
         const roomName = prompt('Enter room name:');
@@ -61,8 +70,12 @@ function App() {
         setOpenHistoryOverlay(!openHistoryOverlay);
     }
 
-    const openPlayers= () => {
+    const openPlayers = () => {
         setOpenPlayerOverlay(!openPlayerOverlay);
+    }
+
+    const openRules = () => {
+        setOpenRulesOverlay(!openRulesOverlay);
     }
 
     useEffect(() => {
@@ -96,10 +109,6 @@ function App() {
             }, 3000);
             setCurrentTurnPlayerId(data.playerId);
             setCurrentTurnPlayerName(data.playerName);
-            /*console.log("data.playerId id: " + data.playerId);
-            console.log("socket.id: " + socket.id);
-            console.log(currentTurnPlayerName);
-            console.log("data.playerName: " + data.playerName);*/
         };
 
         const handleUpdateHistory = (updatedHistory) => {
@@ -167,6 +176,12 @@ function App() {
                     handleChickenPlayerPenalties({playerId: 99, penalty: `Et c'est la pénalité maximale pour ${playerName} !`});
                 }else{
                     handleChickenPlayerPenalties({playerId: 99, penalty: `${playerName} distribue 6 pénalités et peut ajouter une règle de son choix !`});
+                    setTimeout(() => {
+                        const newRule = prompt('Enter new rule:');
+                        setRules(prevRules => {
+                            return [...prevRules, newRule];
+                        });
+                    }, 2000);
                 }
             }else{
                 handleChickenPlayerPenalties({playerId: 99, penalty: `${playerName} distribue ${doubleNumber} pénalités !`});
@@ -248,6 +263,16 @@ function App() {
                             {players.map((player, index) => (
                                 <div key={index} className={player.id === socket.id ? 'active' : ''}>
                                     {player.name}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div id="rules-button" onClick={openRules} className={openRulesOverlay ? 'invert' : ''}>Rules</div>
+                    <div id="rules-list" className={openRulesOverlay ? 'reveal' : 'hide'}>
+                        <div id="rules">
+                            {rules.map((rule, index) => (
+                                <div key={index}>
+                                    {rule}
                                 </div>
                             ))}
                         </div>

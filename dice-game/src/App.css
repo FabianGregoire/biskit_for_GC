@@ -2,7 +2,7 @@ body {
   background-color: #333;
   color: antiquewhite;
   display: flex;
-  height: 100vh;
+  height: 100svh;
   align-items: center;
   justify-content: center;
   perspective: 1000px;
@@ -122,10 +122,10 @@ a.room-buttons span:nth-child(4){
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin: 10vh 10vh;
+  margin: 10vh 15vw;
 }
 
-#players{
+#players, #rules{
   height: 80vh;
   width: 80vw;
   padding: 10vh 10vw;
@@ -139,14 +139,22 @@ a.room-buttons span:nth-child(4){
 
 #players div{
   margin: 10px;
-  text-transform:uppercase;
+}
+
+#rules div{
+  margin: 10px;
+  text-align: left;
+  align-items: flex-start;
+  text-transform:none;
+  font-style: normal;
+  align-self: flex-start;
 }
 
 #players-list .active{
   color: #7EDD03;
 }
 
-#history-button, #players-button{
+#history-button, #players-button, #rules-button{
   position: absolute;
   top: 10px;
   right: 10px;
@@ -159,15 +167,16 @@ a.room-buttons span:nth-child(4){
   left: 10px;
 }
 
-#history-button:hover, #players-button:hover{
+#rules-button{
+  right: 50%;
+  transform: translateX(50%);
+}
+
+#history-button:hover, #players-button:hover, #rules-button:hover{
   cursor: pointer;
 }
 
-/*#history-button.invert{
-  filter: invert(1);
-}*/
-
-#history, #players-list{
+#history, #players-list, #rules-list{
   position: absolute;
   top: 0;
   left: 0;
@@ -184,11 +193,11 @@ a.room-buttons span:nth-child(4){
   text-align: center;
 }
 
-#history.hide, #players-list.hide{
+#history.hide, #players-list.hide, #rules-list.hide{
   animation: fadeDown 0.3s forwards;
 }
 
-#history.reveal, #players-list.reveal{
+#history.reveal, #players-list.reveal, #rules-list.reveal{
   z-index:999;
   animation: fadeUp 0.3s forwards;
 }
@@ -352,7 +361,8 @@ transform: rotateX(-90deg) translateZ(45px);
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 0 10vh 10vh;
+  margin: 0 10vh 15vw;
+  justify-content: center;
 }
 
 #chicken img{
