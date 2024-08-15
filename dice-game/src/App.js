@@ -139,15 +139,22 @@ function App() {
             }, 1500);
         
             setTimeout(() => {
-                penaltyNotification.filter(notifications => notifications.id === currentPenaltyId).state = false;
-            }, 4000);
+                // Mettre à jour l'état de la notification
+                setPenaltyNotification(prevNotifications => 
+                    prevNotifications.map(notification =>
+                        notification.id === currentPenaltyId
+                            ? { ...notification, state: false } // Créer une nouvelle copie de l'objet avec l'état mis à jour
+                            : notification
+                    )
+                );
+            }, 5500);
 
             // Supprimer la notification après 6 secondes
-            /*setTimeout(() => {
+            setTimeout(() => {
                 setPenaltyNotification(prevNotifications =>
                     prevNotifications.filter(notification => notification.id !== currentPenaltyId)
                 );
-            }, 6000);*/
+            }, 6000);
         };
 
         const handleDoubleEvent = ({playerName, doubleNumber}) => {
