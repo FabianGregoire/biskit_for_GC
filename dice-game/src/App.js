@@ -140,7 +140,7 @@ function App() {
         
             setTimeout(() => {
                 penaltyNotification.filter(notifications => notifications.id === currentPenaltyId).state = false;
-            }, 5000);
+            }, 4000);
 
             // Supprimer la notification après 6 secondes
             setTimeout(() => {
