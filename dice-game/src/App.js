@@ -94,13 +94,14 @@ function App() {
               dice1: data.resultDice1, dice2: data.resultDice2, total: data.totalresult
             });*/
             if (Array.isArray(data.diceResults)) {
-                setDiceResult(data.diceResults);
-                //console.log(data.totalResult);
+                const timer = setTimeout(() => {
+                    setDiceResult(data.diceResults);
+                }, 10);
+                return () => clearTimeout(timer);
             } else {
                 setDiceResult([]);
             }
             setIsYourTurn(false); // Désactiver le tour après avoir roulé les dés
-            
         };
 
         const handleUpdateTurn = (data) => {

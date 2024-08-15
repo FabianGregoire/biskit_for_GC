@@ -361,7 +361,7 @@ transform: rotateX(-90deg) translateZ(45px);
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 0 10svh 15vw;
+  margin: 0 10vw 10svh;
   justify-content: center;
 }
 
