@@ -138,9 +138,12 @@ function App() {
                 });
             }, 1500);
         
-            // Supprimer la notification après 6 secondes
             setTimeout(() => {
                 penaltyNotification.filter(notifications => notifications.id === currentPenaltyId).state = false;
+            }, 5000);
+
+            // Supprimer la notification après 6 secondes
+            setTimeout(() => {
                 setPenaltyNotification(prevNotifications =>
                     prevNotifications.filter(notification => notification.id !== currentPenaltyId)
                 );

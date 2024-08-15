@@ -398,6 +398,8 @@ transform: rotateX(-90deg) translateZ(45px);
 
 #penaltyNotification.hide{
   animation: fadeDown 0.3s forwards;
+  padding: 0;
+  background-color: none;
 }
 
 @keyframes fadeUp {
