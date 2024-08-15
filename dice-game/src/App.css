@@ -285,7 +285,7 @@ a.room-buttons span:nth-child(4){
 }
 
 .dice.animate {
-  animation: rotate-dice 1.5s ease-in-out; /* Déclenche l'animation */
+  animation: rotate-dice 1s ease-in-out; /* Déclenche l'animation */
 }
 
 .dice .side-1 {
