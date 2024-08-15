@@ -372,6 +372,9 @@ transform: rotateX(-90deg) translateZ(45px);
   transform: translateX(50%);
   z-index: 1000;
   text-align: center;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
 }
 
 @media screen and (max-width: 600px){

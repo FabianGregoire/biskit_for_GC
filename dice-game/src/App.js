@@ -147,7 +147,7 @@ function App() {
                             : notification
                     )
                 );
-            }, 5500);
+            }, 5700);
 
             // Supprimer la notification après 6 secondes
             setTimeout(() => {
