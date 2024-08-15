@@ -122,13 +122,14 @@ a.room-buttons span:nth-child(4){
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin: 10vh 15vw;
+  margin: 10svh 15vw;
 }
 
 #players, #rules{
-  height: 80vh;
+  height: 80svh;
   width: 80vw;
-  padding: 10vh 10vw;
+  padding: 10svh 10vw;
+  margin-top: 5svh;
   overflow: overlay;
   display: flex;
   flex-direction: column;
@@ -181,7 +182,7 @@ a.room-buttons span:nth-child(4){
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100svh;
   background-color: black;
   color: antiquewhite;
   font-size: 1rem;
@@ -189,7 +190,7 @@ a.room-buttons span:nth-child(4){
 
 #history h3{
   margin:0;
-  padding-top: 10vh;
+  padding-top: 10svh;
   text-align: center;
 }
 
@@ -203,9 +204,9 @@ a.room-buttons span:nth-child(4){
 }
 
 #diceResult{
-  padding: 10vh 10vw;
+  padding: 10svh 10vw;
   overflow: overlay;
-  height: 60vh;
+  height: 60svh;
   display: flex;
   flex-direction: column-reverse;
   flex-wrap: nowrap;
@@ -361,7 +362,7 @@ transform: rotateX(-90deg) translateZ(45px);
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 0 10vh 15vw;
+  margin: 0 10svh 15vw;
   justify-content: center;
 }
 
