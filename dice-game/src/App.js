@@ -91,25 +91,20 @@ function App() {
         };
 
         const handleDiceResult = (data) => {
-            // Réinitialiser l'état des dés à une position neutre (optionnel)
-            setDiceResult([0, 0]); 
 
             // Activer l'animation en réinitialisant d'abord les résultats à [0, 0]
             setIsAnimating(true);
 
             if (Array.isArray(data.diceResults)) {
-                // Ajouter un délai minimal pour déclencher l'animation
-                const timer = setTimeout(() => {
-                    // Mettre à jour les résultats des dés après une courte pause
-                    setDiceResult(data.diceResults);
-                    
-                    // Arrêter l'animation après la durée de l'animation
-                    setTimeout(() => {
-                        setIsAnimating(false);
-                    }, 1500); // La durée de l'animation CSS en millisecondes
-                }, 10);
+                
+                // Mettre à jour les résultats des dés après une courte pause
+                setDiceResult(data.diceResults);
+                
+                // Arrêter l'animation après la durée de l'animation
+                setTimeout(() => {
+                    setIsAnimating(false);
+                }, 1500); // La durée de l'animation CSS en millisecondes
 
-                return () => clearTimeout(timer);
             } else {
                 setDiceResult([]); // Réinitialiser les résultats si aucune donnée valide n'est reçue
                 setIsAnimating(false); // Arrêter l'animation si aucun résultat n'est reçu
