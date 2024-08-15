@@ -94,6 +94,7 @@ function App() {
               dice1: data.resultDice1, dice2: data.resultDice2, total: data.totalresult
             });*/
             if (Array.isArray(data.diceResults)) {
+                setDiceResult([0,0]);
                 const timer = setTimeout(() => {
                     setDiceResult(data.diceResults);
                 }, 10);
