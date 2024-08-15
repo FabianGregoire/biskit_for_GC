@@ -378,7 +378,7 @@ transform: rotateX(-90deg) translateZ(45px);
   text-align: center;
 }
 
-@media screen and (max-width = 600px){
+@media screen and (max-width: 600px){
   #penaltyNotification{
     font-size: 12px;
   }
