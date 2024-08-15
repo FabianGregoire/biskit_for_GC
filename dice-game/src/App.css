@@ -129,7 +129,6 @@ a.room-buttons span:nth-child(4){
   height: 80svh;
   width: 80vw;
   padding: 10svh 10vw;
-  margin-top: 5svh;
   overflow: overlay;
   display: flex;
   flex-direction: column;

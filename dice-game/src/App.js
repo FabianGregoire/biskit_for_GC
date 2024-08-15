@@ -267,7 +267,7 @@ function App() {
                             ))}
                         </div>
                     </div>
-                    <div id="rules-button" onClick={openRules} className={openRulesOverlay ? 'invert' : ''}>Rules</div>
+                    <div id="rules-button" onClick={openRules} className={openRulesOverlay ? 'invert' : ''}>Règles</div>
                     <div id="rules-list" className={openRulesOverlay ? 'reveal' : 'hide'}>
                         <div id="rules">
                             {rules.map((rule, index) => (
