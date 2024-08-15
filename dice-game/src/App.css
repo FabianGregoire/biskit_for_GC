@@ -275,6 +275,19 @@ a.room-buttons span:nth-child(4){
 .side-6 .dot-5 { top: 50%; left: 25%; }
 .side-6 .dot-6 { top: 50%; left: 75%; }
 
+@keyframes rotate-dice {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg) rotateZ(720deg);
+  }
+}
+
+.dice.animate {
+  animation: rotate-dice 1.5s ease-in-out; /* Déclenche l'animation */
+}
+
 .dice .side-1 {
 transform: translateZ(45px);
 }

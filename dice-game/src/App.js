@@ -30,6 +30,7 @@ function App() {
     const [isGameStarted, setIsGameStarted] = useState(false);
     const [diceResult, setDiceResult] = useState([]);
     const [numDice, setNumDice] = useState(2); // Par défaut, lancer 2 dés
+    const [isAnimating, setIsAnimating] = useState(false);
     const [isYourTurn, setIsYourTurn] = useState(false);
     const [currentTurnPlayerId, setCurrentTurnPlayerId] = useState('');
     const [currentTurnPlayerName, setCurrentTurnPlayerName] = useState('');
@@ -90,17 +91,28 @@ function App() {
         };
 
         const handleDiceResult = (data) => {
-            /*setDiceResult({
-              dice1: data.resultDice1, dice2: data.resultDice2, total: data.totalresult
-            });*/
+            // Réinitialiser l'état des dés à une position neutre (optionnel)
+            setDiceResult([0, 0]); 
+
+            // Activer l'animation en réinitialisant d'abord les résultats à [0, 0]
+            setIsAnimating(true);
+
             if (Array.isArray(data.diceResults)) {
-                setDiceResult([0,0]);
+                // Ajouter un délai minimal pour déclencher l'animation
                 const timer = setTimeout(() => {
+                    // Mettre à jour les résultats des dés après une courte pause
                     setDiceResult(data.diceResults);
+                    
+                    // Arrêter l'animation après la durée de l'animation
+                    setTimeout(() => {
+                        setIsAnimating(false);
+                    }, 1500); // La durée de l'animation CSS en millisecondes
                 }, 10);
+
                 return () => clearTimeout(timer);
             } else {
-                setDiceResult([]);
+                setDiceResult([]); // Réinitialiser les résultats si aucune donnée valide n'est reçue
+                setIsAnimating(false); // Arrêter l'animation si aucun résultat n'est reçu
             }
             setIsYourTurn(false); // Désactiver le tour après avoir roulé les dés
         };
@@ -286,7 +298,7 @@ function App() {
                     <div className="current-player">Tour en cours: <br></br>{currentTurnPlayerName}</div>
                     <div id="dice-container">
                         {Array.isArray(diceResult) && diceResult.map((result, index) => (
-                            <div key={index} className={`dice dice${index + 1}`} data-side={result}>
+                            <div key={index} className={`dice dice${index + 1} ${isAnimating ? 'animate' : ''}`} data-side={result}>
                                 {[1, 2, 3, 4, 5, 6].map(side => (
                                     <div key={side} className={`sides side-${side} ${side === result ? 'active' : ''}`}>
                                         {[...Array(side)].map((_, dotIndex) => (
