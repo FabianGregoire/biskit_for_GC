@@ -106,7 +106,7 @@ function App() {
                     // Arrêter l'animation après la durée de l'animation
                     setTimeout(() => {
                         setIsAnimating(false);
-                    }, 1000); // La durée de l'animation CSS en millisecondes
+                    }, 1500); // La durée de l'animation CSS en millisecondes
                 }, 10);
 
                 return () => clearTimeout(timer);
