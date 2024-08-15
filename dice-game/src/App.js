@@ -133,18 +133,18 @@ function App() {
             setTimeout(() => {
                 // Ajouter la pénalité au tableau de notifications
                 setPenaltyNotification(prevNotifications => {
-                    const newNotification = { id: currentPenaltyId, message: penalty };
+                    const newNotification = { id: currentPenaltyId, message: penalty , state : true};
                     return [...prevNotifications, newNotification];
                 });
             }, 1500);
         
             // Supprimer la notification après 6 secondes
             setTimeout(() => {
+                penaltyNotification.filter(notifications => notifications.id === currentPenaltyId).state = false;
                 setPenaltyNotification(prevNotifications =>
                     prevNotifications.filter(notification => notification.id !== currentPenaltyId)
                 );
             }, 6000);
-            console.log(penalty);
         };
 
         const handleDoubleEvent = ({playerName, doubleNumber}) => {
@@ -275,7 +275,7 @@ function App() {
                     </div>
                     <div id="penaltyNotification" className= {penaltyNotification.length > 0 ? 'reveal' : 'hide'}>
                         {penaltyNotification.map((notification) => (
-                            <div key={notification.id}>
+                            <div key={notification.id} id="singleNotification" className={notification.state ? 'active' : 'inactive'}>
                                 {notification.message}
                             </div>
                         ))}

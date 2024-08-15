@@ -384,6 +384,14 @@ transform: rotateX(-90deg) translateZ(45px);
   }
 }
 
+#singleNotification.active{
+  animation: fadeUp 0.3s forwards;
+}
+
+#singleNotification.inactive{
+  animation: fadeDown 0.3s forwards;
+}
+
 #penaltyNotification.reveal{
   animation: fadeUp 0.3s forwards;
 }
@@ -395,20 +403,24 @@ transform: rotateX(-90deg) translateZ(45px);
 @keyframes fadeUp {
   0% {
     opacity: 0;
+    margin-top: -20px;
     top: 0;
   }
 
   100% {
     opacity: 1;
+    margin-top: 0;
   }
 }
 
 @keyframes fadeDown {
   0% {
     opacity: 1;
+    margin-top: 0;
   }
 
   100% {
     opacity: 0;
+    margin-top: -20px;
   }
 }
