@@ -221,7 +221,7 @@ a.room-buttons span:nth-child(4){
   height: 90px;
   margin: 20px;
   transform-style: preserve-3d;
-  /*transition: transform 1.5s ease-out;*/
+  transition: transform 1.5s ease-out;
 }
 
 .dice:hover {
@@ -361,24 +361,24 @@ transform: rotateX(-90deg) translateZ(45px);
   }
 }
 
-/*.dice[data-side="1"].reRoll {
+.dice[data-side="1"] {
   transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
 }
-.dice[data-side="2"].reRoll {
+.dice[data-side="2"] {
   transform: rotateX(360deg) rotateY(180deg) rotateZ(360deg);
 }
-.dice[data-side="3"].reRoll {
+.dice[data-side="3"] {
   transform: rotateX(360deg) rotateY(270deg) rotateZ(360deg);
 }
-.dice[data-side="4"].reRoll {
+.dice[data-side="4"] {
   transform: rotateX(360deg) rotateY(90deg) rotateZ(360deg);
 }
-.dice[data-side="5"].reRoll {
+.dice[data-side="5"] {
   transform: rotateX(270deg) rotateY(360deg) rotateZ(360deg);
 }
-.dice[data-side="6"].reRoll {
+.dice[data-side="6"] {
   transform: rotateX(90deg) rotateY(360deg) rotateZ(360deg);
-}*/
+}
 
 #rollDice{
   position: absolute;
