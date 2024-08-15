@@ -143,11 +143,11 @@ function App() {
             }, 4000);
 
             // Supprimer la notification après 6 secondes
-            setTimeout(() => {
+            /*setTimeout(() => {
                 setPenaltyNotification(prevNotifications =>
                     prevNotifications.filter(notification => notification.id !== currentPenaltyId)
                 );
-            }, 6000);
+            }, 6000);*/
         };
 
         const handleDoubleEvent = ({playerName, doubleNumber}) => {
